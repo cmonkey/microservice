@@ -1,0 +1,29 @@
+server:
+    port: 8000
+spring:
+    application:
+        name: microservice-provider-user # project name
+    jpa:
+        generate-ddl: false
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+
+    datasource:
+        platform: h2
+        schema: classpath:schema.sql
+        data: classpath:data.sql
+logging:
+    level:
+        root: INFO
+        org.hibernate: INFO
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+        org.hibernate.type.descriptor.sql.BasicExtactor: TRACE
+        com.microservice.dao.persistence: ERROR
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://cluster1:8761/eureka/,http://cluster2:8762/eureka/
+    instance:
+        preferIpAddress: true
