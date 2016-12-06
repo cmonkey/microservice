@@ -1,0 +1,16 @@
+server:
+    port: 8020
+spring:
+    application:
+        name: microservice-consumer-movie-feign
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://cluster1:8761/eureka/,http://cluster2:8762/eureka/,
+
+    instance:
+        preferIpAddress: true
+
+ribbon:
+    eureka:
+        enabled: true
