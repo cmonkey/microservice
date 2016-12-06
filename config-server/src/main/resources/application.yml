@@ -5,9 +5,11 @@ spring:
         name: microservice-config-server
     cloud:
         config:
-            git:
-                url: ~/Dropbox/repos/microservice/
-                search-paths: config-repo
-                username:
-                password: 
+            server:
+                git:
+                    uri: ~/Dropbox/repos/microservice.git
+                    label: develop
+                    search-paths: config-repo
+                    username:
+                    password: 
             
