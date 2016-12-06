@@ -35,8 +35,8 @@
 		<!--
         <module>config-server-eureka</module>
         <module>config-client-eureka</module>
-        <module>api-gateway</module>
         -->
+        <module>../api-gateway</module>
       </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
