@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: microservice-api-gateway
+server:
+    port: 8050
+eureka:
+    instance:
+        hostname: gateway
+    client:
+        serviceUrl:
+            defaultZone: http://cluster1:8761/eureka/,http://cluster2:8762/eureka/
+zuul:
+    ignored-services: consumer-movia-feign # 需要忽视的服务(配置后将不会被路由)
+    routes:
+        user:
+            path: /user/**
+            service-id: microservice-provider-user
