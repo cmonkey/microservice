@@ -1,8 +1,8 @@
 spring:
     application:
-        name: microservice-config-client
+        name: config-client
     cloud:
         config:
             uri: http://localhost:8040/
-            profile: dev
+            #profile: dev
             label: master
