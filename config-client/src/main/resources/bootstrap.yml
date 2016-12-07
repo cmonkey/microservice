@@ -1,8 +1,18 @@
 spring:
     application:
-        name: config-client
+        name: config-client # 对应config-server 获取的配置文件的{application}
     cloud:
         config:
             uri: http://localhost:8040/
-            #profile: dev
-            label: master
+            #profile: dev  # 配置文件的profile 
+            label: develop # 访问的config-server 的分支名称
+
+
+#application 相对于config-server 关联的config-repo 中的文件名称: example {config-client.properties}中的config-cleint
+#profile 相对于config-server 关联的config-repo 中文件profile , example {config-client-dev.properties}中的dev
+#label 相对于config-server 关联的config-repo 中的git branch,在config-server中配置的label只是默认git branch
+#/{application}/{profile}[/{label}]
+#/{application}-{profile}.yml
+#/{label}/{application}-{profile}.yml
+#/{application}-{profile}.properties
+#/{label}/{application}-{profile}.properties
