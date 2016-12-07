@@ -7,9 +7,9 @@ spring:
         config:
             server:
                 git:
-                    uri: /home/cmonkey/Dropbox/repos/microservice.git
+                    uri: /home/cmonkey/Dropbox/repos/config-repo.git
                     label: develop
-                    search-paths: config-repo
+                    #search-paths: config-repo
                     username:
                     password: 
             
