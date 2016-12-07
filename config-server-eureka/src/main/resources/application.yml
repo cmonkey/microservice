@@ -8,7 +8,7 @@ spring:
         config:
             server:
                 git:
-                    uri: /home/cmonkey/Dropbox/config-repo.git
+                    uri: /home/cmonkey/Dropbox/repos/config-repo.git
                     #search-paths: config-repo
                     username:
                     password:
