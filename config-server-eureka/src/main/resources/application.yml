@@ -1,0 +1,19 @@
+server:
+    port: 8050
+
+spring:
+    application:
+        name: microservice-config-server-eureka
+    cloud:
+        config:
+            server:
+                git:
+                    uri: /home/cmonkey/Dropbox/config-repo.git
+                    #search-paths: config-repo
+                    username:
+                    password:
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://cluster1:8761/eureka/,http://cluster2:8762/eureka/
