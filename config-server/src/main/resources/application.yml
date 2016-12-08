@@ -11,4 +11,4 @@ spring:
                     label: develop
                     #search-paths: config-repo
                     username:
-                    password: 
+                    password:
