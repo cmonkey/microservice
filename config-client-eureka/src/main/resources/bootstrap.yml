@@ -29,4 +29,7 @@ eureka:
   #client:
     #serviceUrl:
       #defaultZone: http://cluster1:8761/eureka/
+<<<<<<< HEAD
       
+=======
+>>>>>>> add config-client-eureka project
