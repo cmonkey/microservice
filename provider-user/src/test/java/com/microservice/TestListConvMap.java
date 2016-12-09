@@ -2,6 +2,9 @@ package com.microservice;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,9 @@ public class TestListConvMap {
 		list.forEach(item -> map.put(item.getId(), item.getName()));
 		list.stream().forEachOrdered(item -> map.putIfAbsent(item.getId(), item.getName()));
 
-		System.out.println(map);
+		assertThat(map.size(),is(4));
+		assertThat(map.get(1), is("name1"));
+
     }
 }
 class User{
