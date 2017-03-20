@@ -27,3 +27,13 @@ eureka:
             defaultZone: http://cluster1:8761/eureka/,http://cluster2:8762/eureka/
     instance:
         preferIpAddress: true
+redis:
+    minIdle: 256
+    maxIdle: 1024
+    maxWaitMillis: 5000
+    host: 10.0.0.9
+    password:
+    port: 6379 # connection port
+    poolName: "simple-pool-jedis-name"
+    poolSize: 1024
+    timeout: 5000
