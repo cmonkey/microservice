@@ -47,7 +47,10 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -64,7 +67,25 @@
             <version>4.1.6.Final</version>
             <scope>compile</scope>
         </dependency>
-
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springside</groupId>
+			<artifactId>springside-redis</artifactId>
+			<version>4.3.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springside</groupId>
+			<artifactId>springside-utils</artifactId>
+			<version>4.3.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
