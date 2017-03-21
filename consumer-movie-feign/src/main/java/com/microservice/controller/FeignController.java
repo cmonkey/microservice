@@ -3,6 +3,7 @@ package com.microservice.controller;
 import com.microservice.entity.PlatFormData;
 import com.microservice.entity.User;
 import com.microservice.service.PlatFeignClient;
+import com.microservice.service.PlatFormFeignClient;
 import com.microservice.service.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class FeignController {
     private UserFeignClient userFeignClient;
 
     @Autowired
-    private PlatFeignClient platFeignClient;
+    private PlatFormFeignClient platFormFeignClient;
 
     @GetMapping("/feign/{id}")
     public User findIdByFeign(@PathVariable Long id){
@@ -33,11 +34,11 @@ public class FeignController {
                                               @PathVariable int count
                                               ){
 
-        return platFeignClient.getPlatFormData(startTime, endTime, offset, count);
+        return platFormFeignClient.getPlatFormData(startTime, endTime, offset, count);
     }
 
     @PutMapping("/feign/plat_data/refresh")
     public boolean loadPlatFormData(){
-        return platFeignClient.refreshPlatData();
+        return platFormFeignClient.refreshPlatFormData();
     }
 }
