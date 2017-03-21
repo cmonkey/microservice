@@ -1,4 +1,4 @@
-package com.microservice.service;
+package com.microservice.concurrent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;

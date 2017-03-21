@@ -1,4 +1,4 @@
-package com.microservice.service;
+package com.microservice.concurrent;
 
 // 用于启动并控制线程的执行，核心借口为Executor, 包含一个execute(Runnable) 用于指定被执行的线程，
 // ExecutorService接口用于控制线程执行和管理线程(ExecutorService继承Executor)

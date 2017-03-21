@@ -1,4 +1,4 @@
-package com.microservice.service;
+package com.microservice.concurrent;
 
 /**
  * Created by cmonkey on 12/9/16.

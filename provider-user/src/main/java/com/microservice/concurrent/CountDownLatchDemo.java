@@ -1,4 +1,4 @@
-package com.microservice.service;
+package com.microservice.concurrent;
 
 // CountDownLatch(int count) 必须发生count个数量才可以打开锁存器
 // await();等待锁存器

@@ -1,4 +1,4 @@
-package com.microservice.service;
+package com.microservice.concurrent;
 
 import java.util.concurrent.CyclicBarrier;
 
