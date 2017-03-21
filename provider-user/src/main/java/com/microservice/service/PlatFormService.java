@@ -4,12 +4,8 @@ import com.microservice.config.Constants;
 import com.microservice.dao.PlatFormDataRepository;
 import com.microservice.entity.PlatFormData;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.DateConverter;
-import org.apache.commons.beanutils.converters.DateTimeConverter;
-import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -24,12 +20,8 @@ import org.springside.modules.utils.Collections3;
 import redis.clients.jedis.Jedis;
 
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.joda.time.Days;
 import com.google.common.collect.Lists;
 /**
  * Created by cmonkey on 3/20/17.
@@ -61,11 +53,9 @@ public class PlatFormService {
                 Set<String> set = jedis.zrevrangeByScore(PLAT_FORM_DATA_KEY, endDays, startDays, offset, count);
 
                 if(Collections3.isNotEmpty(set)){
-
-                    for(String str : set){
-
-                        logger.info("cache object key = {}", str);
-                        Map<String, String> map = jedis.hgetAll(str);
+                    set.stream().forEach(s -> {
+                        logger.info("cache object key = {}", s);
+                        Map<String, String> map = jedis.hgetAll(s);
 
                         if(null != map && !map.isEmpty()) {
 
@@ -73,7 +63,7 @@ public class PlatFormService {
 
                             list.add(platFormData);
                         }
-                    }
+                    });
                 }
 
                 return list;
