@@ -4,6 +4,7 @@ import com.microservice.entity.PlatFormData;
 import com.microservice.entity.User;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @FeignClient(name = "microservice-provider-user")
 public interface PlatFeignClient {
 
-    @RequestMapping("/getPlatFormData/{startTime}/{endTime}/{offset}/{count}")
+    @RequestMapping("/plat_data/{startTime}/{endTime}/{offset}/{count}")
     public List<PlatFormData> getPlatFormData(
             @RequestParam("startTime") String startTime,
             @RequestParam("endTime") String endTime,
@@ -22,6 +23,6 @@ public interface PlatFeignClient {
             @RequestParam("count") int count
             );
 
-    @RequestMapping("/loadPlaftFormData")
+    @RequestMapping(value = "/plat_data/load", method = RequestMethod.POST)
     public void loadPlatFormData();
 }
