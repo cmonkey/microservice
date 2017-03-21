@@ -24,7 +24,7 @@ public class PlatFormDataController {
     @Resource
     PlatFormService platFormService;
 
-    @GetMapping("/getPlatFormData/{startTime}/{endTime}/{offset}/{count}")
+    @GetMapping("/plat_data/{startTime}/{endTime}/{offset}/{count}")
     public List<PlatFormData> getPlatFormData(
             @RequestParam(value = "startTime") String startTime,
             @RequestParam(value = "endTime") String endTime,
@@ -40,7 +40,7 @@ public class PlatFormDataController {
         return platFormService.getPlatFormData(startDt,endDt,offset, count);
     }
 
-    @PostMapping("/loadPlatformData")
+    @PostMapping("/plat_data/load")
     public void loadPlatformData(){
         platFormService.loadPlatformData();
     }
