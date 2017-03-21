@@ -7,6 +7,7 @@ import com.microservice.service.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,9 +29,19 @@ public class FeignController {
         return userFeignClient.findByIdFeign(id);
     }
 
-    @GetMapping("/feign/{isDb}/{startTime}/{endTime}")
-    public List<PlatFormData> getPlatfromData(@PathVariable boolean isDb, @PathVariable String startTime, @PathVariable String endTime){
+    @GetMapping("/feign/{startTime}/{endTime}/{offset}/{count}")
+    public List<PlatFormData> getPlatfromData(@PathVariable String startTime,
+                                              @PathVariable String endTime,
+                                              @PathVariable int offset,
+                                              @PathVariable int count
+                                              ){
 
-        return platFeignClient.getPlatFormData(isDb,startTime, endTime);
+        return platFeignClient.getPlatFormData(startTime, endTime, offset, count);
+    }
+
+    @PostMapping("/feign/loadPlatFormData")
+    public void loadPlatFormData(){
+
+        platFeignClient.loadPlatFormData();
     }
 }
