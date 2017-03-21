@@ -6,10 +6,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -40,8 +38,8 @@ public class PlatFormDataController {
         return platFormService.getPlatFormData(startDt,endDt,offset, count);
     }
 
-    @PostMapping("/plat_data/load")
-    public void loadPlatformData(){
-        platFormService.loadPlatformData();
+    @PutMapping("/plat_data/refresh")
+    public boolean refreshPlatformData(){
+        return platFormService.refreshPlatformData();
     }
 }
