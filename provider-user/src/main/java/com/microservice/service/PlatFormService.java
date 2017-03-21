@@ -3,6 +3,7 @@ package com.microservice.service;
 import com.microservice.config.Constants;
 import com.microservice.dao.PlatFormDataRepository;
 import com.microservice.entity.PlatFormData;
+import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -12,17 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springside.modules.nosql.redis.JedisShardedTemplate;
-import org.springside.modules.nosql.redis.JedisShardedTemplate;
 import org.springside.modules.nosql.redis.JedisTemplate;
 import org.springside.modules.utils.Collections3;
 import redis.clients.jedis.Jedis;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.joda.time.Days;
@@ -125,8 +125,15 @@ public class PlatFormService {
     private static PlatFormData getCacheData(Map<String, String> map){
         PlatFormData data = new PlatFormData();
 
-        data.setId(Integer.valueOf(map.get(Constants.id.name())));
-        data.setAnnualSum(BigDecimal.valueOf(Double.valueOf(map.get(Constants.annualSum.name()))));
+        try {
+            BeanUtils.populate(data, map);
+        } catch (IllegalAccessException e) {
+            logger.error("getCacheData Exception = {}", e.getMessage());
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            logger.error("getCacheData Exception = {}", e.getMessage());
+            e.printStackTrace();
+        }
 
         return data;
     }
