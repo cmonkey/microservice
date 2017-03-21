@@ -23,6 +23,6 @@ public interface PlatFeignClient {
             @RequestParam("count") int count
             );
 
-    @RequestMapping(value = "/plat_data/load", method = RequestMethod.POST)
-    public void loadPlatFormData();
+    @RequestMapping(value = "/plat_data/refresh", method = RequestMethod.PUT)
+    public boolean refreshPlatData();
 }
