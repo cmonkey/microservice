@@ -29,7 +29,7 @@ public class FeignController {
         return userFeignClient.findByIdFeign(id);
     }
 
-    @GetMapping("/feign/{startTime}/{endTime}/{offset}/{count}")
+    @GetMapping("/feign/plat_data/{startTime}/{endTime}/{offset}/{count}")
     public List<PlatFormData> getPlatfromData(@PathVariable String startTime,
                                               @PathVariable String endTime,
                                               @PathVariable int offset,
@@ -39,7 +39,7 @@ public class FeignController {
         return platFeignClient.getPlatFormData(startTime, endTime, offset, count);
     }
 
-    @PostMapping("/feign/loadPlatFormData")
+    @PostMapping("/feign/plat_data/load")
     public void loadPlatFormData(){
 
         platFeignClient.loadPlatFormData();
