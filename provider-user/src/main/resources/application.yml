@@ -31,7 +31,7 @@ redis:
     minIdle: 256
     maxIdle: 1024
     maxWaitMillis: 5000
-    host: 10.0.0.9
+    host: redis-ip
     password:
     port: 6379 # connection port
     poolName: "simple-pool-jedis-name"
