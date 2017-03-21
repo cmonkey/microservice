@@ -2,7 +2,6 @@ package com.microservice.controller;
 
 import com.microservice.entity.PlatFormData;
 import com.microservice.entity.User;
-import com.microservice.service.PlatFeignClient;
 import com.microservice.service.PlatFormFeignClient;
 import com.microservice.service.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
