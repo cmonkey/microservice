@@ -95,11 +95,16 @@ public class PlatFormService {
         return data;
     }
 
-    public void loadPlatformData() {
-        List<PlatFormData> list = platFormDataRepository.findAll();
+    public boolean refreshPlatformData() {
+        long startTime = System.nanoTime();
 
-        if(Collections3.isNotEmpty(list)) {
-            list.stream().forEach(data -> {
+        boolean isSuccess = true;
+
+        try {
+            List<PlatFormData> list = platFormDataRepository.findAll();
+
+            if (Collections3.isNotEmpty(list)) {
+                list.stream().forEach(data -> {
 
                     Date createTime = data.getCreateTime();
                     DateTime dt = new DateTime(createTime.getTime());
@@ -107,32 +112,40 @@ public class PlatFormService {
 
                     jedisShardedTemplate.execute(PLAT_FORM_DATA_KEY, new JedisTemplate.JedisActionNoResult() {
 
-                    @Override
-                    public void action(Jedis jedis) {
+                        @Override
+                        public void action(Jedis jedis) {
 
-                        String objectKey = PLAT_FORM_DATA_OBJECT_KEY + days;
+                            String objectKey = PLAT_FORM_DATA_OBJECT_KEY + days;
 
-                        jedis.zadd(PLAT_FORM_DATA_KEY, days, objectKey);
+                            jedis.zadd(PLAT_FORM_DATA_KEY, days, objectKey);
 
-                        addCache(jedis, objectKey, Constants.id, data.getId());
-                        addCache(jedis, objectKey, Constants.annualSum, data.getAnnualSum());
-                        addCache(jedis, objectKey, Constants.bankCount, data.getBankCount());
-                        addCache(jedis, objectKey, Constants.cashSum, data.getCashSum());
-                        addCache(jedis, objectKey, Constants.cashWithSum, data.getCashWithSum());
-                        addCache(jedis, objectKey, Constants.collectSum, data.getCollectSum());
-                        addCache(jedis, objectKey, Constants.createTime, data.getCreateTime());
-                        addCache(jedis, objectKey, Constants.interestSum, data.getInterestSum());
-                        addCache(jedis, objectKey, Constants.investConvert, data.getInvestConvert());
-                        addCache(jedis, objectKey, Constants.investCount, data.getInvestCount());
-                        addCache(jedis, objectKey, Constants.investCountOrDay, data.getInvestCountOrDay());
-                        addCache(jedis, objectKey, Constants.originInvestCount, data.getOriginInvestCount());
-                        addCache(jedis, objectKey, Constants.originInvestSum, data.getOriginInvestSum());
-                        addCache(jedis, objectKey, Constants.redSum, data.getRedSum());
-                        addCache(jedis, objectKey, Constants.regCount, data.getRegCount());
-                    }
+                            addCache(jedis, objectKey, Constants.id, data.getId());
+                            addCache(jedis, objectKey, Constants.annualSum, data.getAnnualSum());
+                            addCache(jedis, objectKey, Constants.bankCount, data.getBankCount());
+                            addCache(jedis, objectKey, Constants.cashSum, data.getCashSum());
+                            addCache(jedis, objectKey, Constants.cashWithSum, data.getCashWithSum());
+                            addCache(jedis, objectKey, Constants.collectSum, data.getCollectSum());
+                            addCache(jedis, objectKey, Constants.createTime, data.getCreateTime());
+                            addCache(jedis, objectKey, Constants.interestSum, data.getInterestSum());
+                            addCache(jedis, objectKey, Constants.investConvert, data.getInvestConvert());
+                            addCache(jedis, objectKey, Constants.investCount, data.getInvestCount());
+                            addCache(jedis, objectKey, Constants.investCountOrDay, data.getInvestCountOrDay());
+                            addCache(jedis, objectKey, Constants.originInvestCount, data.getOriginInvestCount());
+                            addCache(jedis, objectKey, Constants.originInvestSum, data.getOriginInvestSum());
+                            addCache(jedis, objectKey, Constants.redSum, data.getRedSum());
+                            addCache(jedis, objectKey, Constants.regCount, data.getRegCount());
+                        }
+                    });
                 });
-            });
 
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            logger.error("refreshPlatFormData Exception = {}", e);
+            isSuccess = false;
         }
+        logger.info("refreshPlatFormData time = {}, result = {}", (System.nanoTime() - startTime), isSuccess);
+
+        return isSuccess;
     }
 }
