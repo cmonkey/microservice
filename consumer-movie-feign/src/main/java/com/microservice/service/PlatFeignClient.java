@@ -14,9 +14,14 @@ import java.util.List;
 @FeignClient(name = "microservice-provider-user")
 public interface PlatFeignClient {
 
-    @RequestMapping("/getPlatFormData/{isDb}/{startTime}/{endTime}")
+    @RequestMapping("/getPlatFormData/{startTime}/{endTime}/{offset}/{count}")
     public List<PlatFormData> getPlatFormData(
-            @RequestParam("isDb") boolean isDb,
             @RequestParam("startTime") String startTime,
-            @RequestParam("endTime") String endTime);
+            @RequestParam("endTime") String endTime,
+            @RequestParam("offset") int offset,
+            @RequestParam("count") int count
+            );
+
+    @RequestMapping("/loadPlaftFormData")
+    public void loadPlatFormData();
 }
