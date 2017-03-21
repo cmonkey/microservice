@@ -1,6 +1,6 @@
 package com.microservice.controller;
 import com.microservice.entity.PlatFormData;
-import com.microservice.service.PlatFormService;
+import com.microservice.service.PlatFormDataService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -20,7 +20,7 @@ public class PlatFormDataController {
     private final static Logger logger = LoggerFactory.getLogger(PlatFormDataController.class);
 
     @Resource
-    PlatFormService platFormService;
+    PlatFormDataService platFormDataService;
 
     @GetMapping("/plat_data/{startTime}/{endTime}/{offset}/{count}")
     public List<PlatFormData> getPlatFormData(
@@ -35,11 +35,11 @@ public class PlatFormDataController {
         DateTime startDt = fmt.parseDateTime(startTime);
         DateTime endDt = fmt.parseDateTime(endTime);
 
-        return platFormService.getPlatFormData(startDt,endDt,offset, count);
+        return platFormDataService.getPlatFormData(startDt,endDt,offset, count);
     }
 
     @PutMapping("/plat_data/refresh")
     public boolean refreshPlatformData(){
-        return platFormService.refreshPlatformData();
+        return platFormDataService.refreshPlatformData();
     }
 }
