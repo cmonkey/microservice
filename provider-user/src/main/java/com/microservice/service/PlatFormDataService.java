@@ -120,6 +120,8 @@ public class PlatFormDataService {
 
                             jedis.zadd(PLAT_FORM_DATA_KEY, days, objectKey);
 
+                            //TODO reflect object and write cache
+
                             addCache(jedis, objectKey, Constants.id, data.getId());
                             addCache(jedis, objectKey, Constants.annualSum, data.getAnnualSum());
                             addCache(jedis, objectKey, Constants.bankCount, data.getBankCount());
