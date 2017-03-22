@@ -18,6 +18,7 @@ import java.util.List;
 public class PlatFormDataController {
 
     private final static Logger logger = LoggerFactory.getLogger(PlatFormDataController.class);
+    private final static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     @Resource
     PlatFormDataService platFormDataService;
@@ -30,7 +31,6 @@ public class PlatFormDataController {
             @RequestParam(value = "count") int count
             ){
         //DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
         DateTime startDt = fmt.parseDateTime(startTime);
         DateTime endDt = fmt.parseDateTime(endTime);
