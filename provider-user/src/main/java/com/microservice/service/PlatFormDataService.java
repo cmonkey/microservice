@@ -6,6 +6,7 @@ import com.microservice.entity.PlatFormData;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.collections.MapUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -57,7 +58,7 @@ public class PlatFormDataService {
                         logger.info("cache object key = {}", s);
                         Map<String, String> map = jedis.hgetAll(s);
 
-                        if(null != map && !map.isEmpty()) {
+                        if(MapUtils.isNotEmpty(map)) {
 
                             PlatFormData platFormData = getCacheData(map);
 
