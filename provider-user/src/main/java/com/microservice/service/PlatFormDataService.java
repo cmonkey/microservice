@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -20,10 +21,14 @@ import org.springside.modules.nosql.redis.JedisTemplate;
 import org.springside.modules.utils.Collections3;
 import redis.clients.jedis.Jedis;
 
+import com.google.common.collect.Lists;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.*;
 
-import com.google.common.collect.Lists;
 /**
  * Created by cmonkey on 3/20/17.
  */
@@ -36,7 +41,7 @@ public class PlatFormDataService {
     @Autowired
     JedisShardedTemplate jedisShardedTemplate;
     private static final Logger logger = LoggerFactory.getLogger(PlatFormDataService.class);
-    DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private final static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired
     PlatFormDataRepository platFormDataRepository;
 
@@ -72,8 +77,43 @@ public class PlatFormDataService {
         });
     }
 
-    private static void addCache(Jedis jedis, String cacheKey, Constants constants, Object value){
-        jedis.hset(cacheKey, constants.name(), String.valueOf(value));
+    private static void buildModelToCache(Jedis jedis, final String cacheKey, Object object){
+        Class<?> clazz = object.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for(Field field : fields){
+
+            String fieldName = field.getName();
+            String getterMethodName =  "get" + StringUtils.capitalize(fieldName);
+            Method method = null;
+            try {
+                method = clazz.getDeclaredMethod(getterMethodName, new Class<?>[]{});
+                Class<?> returnType = method.getReturnType();
+                Object result = method.invoke(object, new Object[]{});
+
+                if(null != result){
+                    String v = String.valueOf(result);
+
+                    if(returnType.equals(Date.class)){
+                        Date date = (Date)result;
+                        DateTime dateTime = new DateTime(date.getTime());
+                        v = dateTime.toString(fmt);
+                    }
+                    logger.info("builderModelToCache fieldName = {}, method return Value  = {}", fieldName, v);
+                    addCache(jedis, cacheKey, fieldName, v);
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void addCache(Jedis jedis, String cacheKey, String fieldName, Object value){
+        jedis.hset(cacheKey, fieldName, String.valueOf(value));
     }
 
     private static PlatFormData getCacheData(Map<String, String> map){
@@ -81,7 +121,8 @@ public class PlatFormDataService {
 
         try {
             DateConverter converter = new DateConverter();
-            converter.setPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            //converter.setPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            converter.setPattern("yyyy-MM-dd HH:mm:ss");
             ConvertUtils.register(converter, Date.class);
 
             BeanUtils.populate(data, map);
@@ -116,27 +157,11 @@ public class PlatFormDataService {
                         @Override
                         public void action(Jedis jedis) {
 
-                            String objectKey = PLAT_FORM_DATA_OBJECT_KEY + days;
+                            String cacheKey = PLAT_FORM_DATA_OBJECT_KEY + days;
 
-                            jedis.zadd(PLAT_FORM_DATA_KEY, days, objectKey);
+                            jedis.zadd(PLAT_FORM_DATA_KEY, days, cacheKey);
 
-                            //TODO reflect object and write cache
-
-                            addCache(jedis, objectKey, Constants.id, data.getId());
-                            addCache(jedis, objectKey, Constants.annualSum, data.getAnnualSum());
-                            addCache(jedis, objectKey, Constants.bankCount, data.getBankCount());
-                            addCache(jedis, objectKey, Constants.cashSum, data.getCashSum());
-                            addCache(jedis, objectKey, Constants.cashWithSum, data.getCashWithSum());
-                            addCache(jedis, objectKey, Constants.collectSum, data.getCollectSum());
-                            addCache(jedis, objectKey, Constants.createTime, data.getCreateTime());
-                            addCache(jedis, objectKey, Constants.interestSum, data.getInterestSum());
-                            addCache(jedis, objectKey, Constants.investConvert, data.getInvestConvert());
-                            addCache(jedis, objectKey, Constants.investCount, data.getInvestCount());
-                            addCache(jedis, objectKey, Constants.investCountOrDay, data.getInvestCountOrDay());
-                            addCache(jedis, objectKey, Constants.originInvestCount, data.getOriginInvestCount());
-                            addCache(jedis, objectKey, Constants.originInvestSum, data.getOriginInvestSum());
-                            addCache(jedis, objectKey, Constants.redSum, data.getRedSum());
-                            addCache(jedis, objectKey, Constants.regCount, data.getRegCount());
+                            buildModelToCache(jedis, cacheKey, data);
                         }
                     });
                 });
