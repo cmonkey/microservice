@@ -1,6 +1,5 @@
 package com.microservice.service;
 
-import com.microservice.config.Constants;
 import com.microservice.dao.PlatFormDataRepository;
 import com.microservice.entity.PlatFormData;
 import org.apache.commons.beanutils.BeanUtils;
