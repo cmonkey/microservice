@@ -13,7 +13,7 @@
 
     <parent>
         <groupId>com.microservice</groupId>
-        <artifactId>study</artifactId>
+        <artifactId>service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
