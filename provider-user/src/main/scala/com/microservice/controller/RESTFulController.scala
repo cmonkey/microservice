@@ -16,7 +16,11 @@ import scala.beans.BeanProperty
 @RestController
 @RequestMapping(value = Array("/restful"))
 @Slf4j
-class RESTFulController @Resource()(val platFormDataService: PlatFormDataService ){
+//class RESTFulController @Resource()(val platFormDataService: PlatFormDataService ){
+class RESTFulController{
+
+  @Resource
+  val platFormDataService: PlatFormDataService = null;
 
   @GetMapping(value = Array("/api/{id}"))
   def getId(): User = {
