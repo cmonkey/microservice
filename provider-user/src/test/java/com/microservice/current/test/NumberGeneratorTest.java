@@ -1,5 +1,6 @@
 package com.microservice.current.test;
 
+import com.google.testing.threadtester.*;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class NumberGeneratorTest {
         AnnotatedTestRunner runner = new AnnotatedTestRunner();
         HashSet methods = new HashSet();
         methods.add(NumberGenerator.class.getName() + ".nextNumber");
-        runner.setMethodOption(MethodOption.LISTED_METHODS, methods);
+        //runner.setMethodOption(MethodOption.LISTED_METHODS, methods);
         runner.setDebug(false);
         runner.runTests(this.getClass(), NumberGenerator.class);
     }
