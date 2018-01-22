@@ -16,7 +16,7 @@ import java.util.List;
 public interface PlatFormFeignClient {
 
     @RequestMapping("/plat_data/{startTime}/{endTime}/{offset}/{count}")
-    public List<PlatFormData> getPlatFormData(
+    List<PlatFormData> getPlatFormData(
             @RequestParam("startTime") String startTime,
             @RequestParam("endTime") String endTime,
             @RequestParam("offset") int offset,
@@ -24,5 +24,5 @@ public interface PlatFormFeignClient {
             );
 
     @RequestMapping(value = "/plat_data/refresh", method = RequestMethod.PUT)
-    public boolean refreshPlatFormData();
+    boolean refreshPlatFormData();
 }
